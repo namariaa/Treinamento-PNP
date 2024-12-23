@@ -1,0 +1,24 @@
+section{
+    background-color: #071D41;
+}
+.cartao{
+    background-color: #ffff;
+    padding: 50px;
+    width: 462px;
+}
+.conteudo{
+    display: flex;
+    justify-content: space-between;
+}
+.card{
+    padding: 24px;
+}
+img{
+    padding: 8px;
+}
+h2,a{
+    text-align: center;
+}
+.login{
+    padding-top: 15px;
+}
