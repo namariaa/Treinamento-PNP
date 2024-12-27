@@ -1,11 +1,12 @@
 import logo from "../headerAutentificar/logo.svg"
+import { Link } from "react-router-dom";
 
 function HeaderPNPCompleto(){
     return<>
     <header className="br-header">
   <div className="container-lg">
     <div className="header-top">
-      <div className="header-logo"><img src={logo} alt="logo"/><span className="br-divider vertical"></span>
+      <div className="header-logo"><Link to={"/"}><img src={logo} alt="logo"/></Link><span className="br-divider vertical"></span>
       </div>
       <div className="header-actions">
         <div className="header-search-trigger">
@@ -14,8 +15,8 @@ function HeaderPNPCompleto(){
         </div>
         <div className="header-login">
           <div className="header-sign-in">
-          <button className="br-sign-in" type="button" id="avatar-dropdown-trigger" data-toggle="dropdown" data-target="avatar-menu" aria-label="Olá, Fulano"><span className="br-avatar" title="Fulano da Silva"><span className="content bg-orange-vivid-30 text-pure-0">F</span></span><span className="ml-2 text-gray-80 text-weight-regular">Olá, <span className="text-weight-semi-bold">Ana</span></span><i className="fas fa-caret-down" aria-hidden="true"></i>
-        </button>
+        <Link to={"/Perfil"}><button className="br-sign-in" type="button" id="avatar-dropdown-trigger" data-toggle="dropdown" data-target="avatar-menu" aria-label="Olá, Fulano"><span className="br-avatar" title="Fulano da Silva"><span className="content bg-orange-vivid-30 text-pure-0">F</span></span><span className="ml-2 text-gray-80 text-weight-regular">Olá, <span className="text-weight-semi-bold">Ana</span></span><i className="fas fa-caret-down" aria-hidden="true"></i>
+        </button></Link>
           </div>
           <div className="header-avatar"></div>
         </div>
@@ -28,7 +29,8 @@ function HeaderPNPCompleto(){
           </button>
         </div>
         <div className="header-info">
-          <div className="header-title">Plataforma Nilo Peçanha</div>
+          <div className="header-title">PNP Microblog</div>
+          <div className="header-subtitle">Plataforma Nilo Peçanha</div>
         </div>
       </div>
       <div className="header-search">
