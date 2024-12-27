@@ -2,8 +2,12 @@ import { useState } from "react";
 import HeaderPNPCompleto from "../../components/headerCompleto";
 import post from "./post.png";
 import "./style.css"
+//import apiService from "../../service/apiService";
 
 function Feed(){
+
+    const [api, setApi] = useState();
+    
 
     const [tipoDisplay, setTipoDisplay] = useState("none");
     const [tipoComentario, setTipoComentario] = useState("none");
@@ -42,12 +46,12 @@ function Feed(){
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore perferendis nam porro atque ex at, numquam non optio ab eveniet error vel ad exercitationem, earum et fugiat recusandae harum? Assumenda.</p>
             </div>
             <div className="card-footer">
-                <button onClick={mudarDisplay} className="br-button" type="button">Respostas a postagem de @namariaa</button>
                 <div className="d-flex">
                 <div className="ml-auto">
                 <button onClick={mudarDisplayComentario} className="br-button secondary large mr-3" type="button" ><i className="fa-solid fa-comment" ></i> </button>
                 </div>
                 </div>
+                <button onClick={mudarDisplay} className="br-button" type="button" style={{margin:"5px", justifySelf:"right", display:"flex"}}>Respostas a postagem de @namariaa</button>
             </div>
             </div>
             <div style={{display:tipoComentario}}>
@@ -56,7 +60,7 @@ function Feed(){
                 <input id="input-large" type="text" placeholder="Comentário a ser publicado"/>
             </div>
             </div>
-            <button className="br-button primary mr-3" type="button">Comentar</button>
+            <button className="br-button primary mr-3" type="button"  style={{margin:"5px", justifySelf:"right", display:"flex"}}>Comentar</button>
             </div>
 
             <div id="popup" className="div br-modal medium" aria-modal="true" role="dialog" aria-labelledby="modalalerttitle" style={{display: tipoDisplay}}>
@@ -105,12 +109,12 @@ function Feed(){
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore perferendis nam porro atque ex at, numquam non optio ab eveniet error vel ad exercitationem, earum et fugiat recusandae harum? Assumenda.</p>
             </div>
             <div className="card-footer">
-                <button className="br-button" type="button">Respostas a postagem de @fulaninho</button>
                 <div className="d-flex">
                 <div className="ml-auto">
                 <button className="br-button secondary large mr-3" type="button" ><i className="fa-solid fa-comment" ></i> </button>
                 </div>
                 </div>
+                <button className="br-button" type="button" style={{margin:"5px", justifySelf:"right", display:"flex"}}>Respostas a postagem de @fulaninho</button>
             </div>
             </div>
         </div>
@@ -131,12 +135,12 @@ function Feed(){
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore perferendis nam porro atque ex at, numquam non optio ab eveniet error vel ad exercitationem, earum et fugiat recusandae harum? Assumenda.</p>
             </div>
             <div className="card-footer">
-                <button className="br-button" type="button">Respostas a postagem de @fulanitos</button>
                 <div className="d-flex">
                 <div className="ml-auto">
                 <button className="br-button secondary large mr-3" type="button" ><i className="fa-solid fa-comment" ></i> </button>
                 </div>
                 </div>
+                <button className="br-button" type="button" style={{margin:"5px", justifySelf:"right", display:"flex"}}>Respostas a postagem de @fulanitos</button>
             </div>
             </div>
         </div>
