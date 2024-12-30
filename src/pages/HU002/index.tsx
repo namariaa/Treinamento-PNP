@@ -14,22 +14,23 @@ const schema = yup.object().shape({
 });
 
 function Login() {
+  const mudar = useNavigate();
   const [login, setLogin] = useState();
   const Conferir = async (data: { username: string; password: string }) => {
     try {
       const salvar = await apiService.login(data);
       setLogin(salvar.data);
       console.log("Login realizado com sucesso!", salvar.data);
-      Redirecionar();
+	  mudar("/");
     } catch (error) {
       console.error("Erro ao fazer login", error);
     }
   };
 
-  function Redirecionar() {
+  /*function Redirecionar() {
     const mudar = useNavigate();
     mudar("/");
-  }
+  }*/
 
   const {
     handleSubmit,
@@ -90,7 +91,7 @@ function Login() {
                     {...register("password")}
                   />
 
-                  {errors.senha?.message !== undefined && (
+                  {errors.password?.message !== undefined && (
                     <div className="mb-3">
                       <span className="feedback danger" role="alert">
                         <i

@@ -2,23 +2,8 @@ import { useState, useEffect } from "react";
 import HeaderPNPCompleto from "../../components/headerCompleto";
 import post from "./post.png";
 import "./style.css"
-import apiService from "../../service/apiService";
 
 function Feed(){
-
-    const [post, setPost] =  useState();
-        function handleData(){
-            apiService.pegarURL().then((res) =>{
-                const {data} = res;
-                setPost(data);
-                console.log(post);
-            })
-        }
-        useEffect (() => {
-            handleData();
-        })
-    
-
     const [tipoDisplay, setTipoDisplay] = useState("none");
     const [tipoComentario, setTipoComentario] = useState("none");
 
