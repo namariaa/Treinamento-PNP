@@ -5,30 +5,58 @@ import "./style.css";
 import { useForm} from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import apiService from "../../service/apiService";
 
 const schema = yup.object().shape({
 	nome: yup.string().required(),
-	usuarios: yup.string().required(),
-	senha: yup.number().required(),
-	confirma: yup.number().required(),
+	username: yup.string().required(),
+	senha: yup.string().required(),
+	confirma: yup.string().required(),
 })
 
 
 function Autocadastro(){
+	const [cadastro, setCadastro] =  useState();
 	
 	const {handleSubmit, register , getValues, formState: {errors}} = useForm({
 		resolver: yupResolver(schema)
 	});
 	
-	function conferir(){
-		console.log("pato")
+	const conferir = async (data: { username: string; nome: string; senha: string }) => {
+		try {
+			const salvar = await apiService.cadastrarUsuario(data);
+			setCadastro(salvar.data);
+			mudarDisplaySucesso();
+			console.log("Cadastro realizado com sucesso!", salvar.data);
+			Redirecionar();
+		} catch (error) {
+		mudarDisplayErro();
+		  console.error("Erro ao cadastrar", error);
+		}
+	  };
+
+	function Redirecionar(){
+		const mudar = useNavigate();
+		mudar('/login');
 	}
 
 	const [mostrarSenha, setMostrarSenha] = useState("password");
 	const [mudarOlho, setMudarOlho] = useState("fas fa-eye");
 	const [mostrarSenha2, setMostrarSenha2] = useState("password");
 	const [mudarOlho2, setMudarOlho2] = useState("fas fa-eye");
+	const [displaySucesso, setDisplaySucesso] = useState("none");
+	const [displayErro, setDisplayErro] = useState("none");
+
+	function mudarDisplaySucesso(){ //Para mostrar mensagem de sucesso ou falaha no cadastro
+		if (displaySucesso == "none") setDisplaySucesso("flex");
+		else setDisplaySucesso("none");
+	}
+
+	function mudarDisplayErro(){
+		if (displaySucesso == "none") setDisplayErro("flex");
+		else setDisplayErro("none");
+	}
 
 	function mudarTipo(){
 		if (mostrarSenha === "password"){ 
@@ -55,6 +83,26 @@ function Autocadastro(){
 	return (
 		<>
 			<HeaderPNP />
+			<div className="br-message success" style={{display:displaySucesso}}>
+				<div className="icon"><i className="fas fa-check-circle fa-lg" aria-hidden="true"></i>
+				</div>
+				<div className="content" aria-label="Sucesso. Seus dados foram alterados conforme preenchimento do formulário." role="alert"><span className="message-title">Sucesso.</span><span className="message-body"> Seus dados foram alterados conforme preenchimento do formulário.</span></div>
+				<div className="close">
+					<button className="br-button circle small" type="button" aria-label="Fechar a messagem alterta" onClick={mudarDisplaySucesso}><i className="fas fa-times" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
+
+			<div className="br-message danger" style={{display:displayErro}}>
+				<div className="icon"><i className="fas fa-times-circle fa-lg" aria-hidden="true"></i>
+				</div>
+				<div className="content" aria-label="Data de início do afastamento inválida. A data não pode ser superior à data atual." role="alert"><span className="message-title">Falha no cadastro.</span><span className="message-body"> Esse usuário já está cadastrado.</span></div>
+				<div className="close">
+					<button className="br-button circle small" type="button" aria-label="Fechar a messagem alterta" onClick={mudarDisplayErro} ><i className="fas fa-times" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
+
 			<section style={{ background: "#071D41", padding: "39.5px" }}>
 				<div className="conteudo container-lg">
 					<img
@@ -91,7 +139,7 @@ function Autocadastro(){
 						</div>
 
 						<div className="br-input small"  style={{paddingTop: "15px"}}>
-							<label className="usuarios">Usuário</label>
+							<label className="username">Usuário</label>
 							<div className="input-group">
 								<div className="input-icon">
 									<i
@@ -101,13 +149,14 @@ function Autocadastro(){
 								</div>
 								<input
 									className="small"
-									id="usuarios"
+									id="username"
 									type="text"
 									placeholder="Nome do usuário"
-									{...register("usuarios")}
+									{...register("username")}
 								/>
+
 								{
-								errors.usuarios?.message !== undefined && (
+								errors.username?.message !== undefined && (
 									<div className="mb-3"><span className="feedback danger" role="alert"><i className="fas fa-times-circle" aria-hidden="true"></i>Coloque seu nome</span>
 									</div>
 								)

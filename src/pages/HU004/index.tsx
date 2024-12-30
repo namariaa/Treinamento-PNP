@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HeaderPNPCompleto from "../../components/headerCompleto";
 import post from "./post.png";
 import "./style.css"
-//import apiService from "../../service/apiService";
+import apiService from "../../service/apiService";
 
 function Feed(){
 
-    const [api, setApi] = useState();
+    const [post, setPost] =  useState();
+        function handleData(){
+            apiService.pegarURL().then((res) =>{
+                const {data} = res;
+                setPost(data);
+                console.log(post);
+            })
+        }
+        useEffect (() => {
+            handleData();
+        })
     
 
     const [tipoDisplay, setTipoDisplay] = useState("none");
@@ -24,7 +34,6 @@ function Feed(){
     return (
         <>
         <HeaderPNPCompleto/>
-
         <div className="column">
         <div className="col-sm-6 col-md-4 col-lg-3">
             <div className="br-card">
