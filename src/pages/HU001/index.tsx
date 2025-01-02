@@ -18,6 +18,7 @@ const schema = yup.object().shape({
 
 function Autocadastro(){
 	const [cadastro, setCadastro] =  useState();
+	const mudar = useNavigate();
 	
 	const {handleSubmit, register , getValues, formState: {errors}} = useForm({
 		resolver: yupResolver(schema)
@@ -29,18 +30,13 @@ function Autocadastro(){
 			setCadastro(salvar.data);
 			mudarDisplaySucesso();
 			console.log("Cadastro realizado com sucesso!", salvar.data);
-			Redirecionar();
+			mudar("/login");
 		} catch (error) {
-		mudarDisplayErro();
+		  mudarDisplayErro();
 		  console.error("Erro ao cadastrar", error);
 		}
 	  };
-
-	function Redirecionar(){
-		const mudar = useNavigate();
-		mudar('/login');
-	}
-
+	  
 	const [mostrarSenha, setMostrarSenha] = useState("password");
 	const [mudarOlho, setMudarOlho] = useState("fas fa-eye");
 	const [mostrarSenha2, setMostrarSenha2] = useState("password");

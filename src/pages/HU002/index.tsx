@@ -20,17 +20,13 @@ function Login() {
     try {
       const salvar = await apiService.login(data);
       setLogin(salvar.data);
+      localStorage.setItem('usuario', JSON.stringify(salvar.data)) ; //Guardando no local storage para eu conseguir usar rem nova publicação
       console.log("Login realizado com sucesso!", salvar.data);
-	  mudar("/");
+	    mudar("/");
     } catch (error) {
       console.error("Erro ao fazer login", error);
     }
   };
-
-  /*function Redirecionar() {
-    const mudar = useNavigate();
-    mudar("/");
-  }*/
 
   const {
     handleSubmit,

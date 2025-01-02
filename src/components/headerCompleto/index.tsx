@@ -1,7 +1,15 @@
+import { useState } from "react";
 import logo from "../headerAutentificar/logo.svg"
 import { Link } from "react-router-dom";
 
 function HeaderPNPCompleto(){
+    const [displayDrop, setDisplayDrop] = useState("none");
+
+    function drop(){
+      if (displayDrop === "none") setDisplayDrop("flex");
+      else setDisplayDrop("none");
+    }
+
     return<>
     <header className="br-header">
   <div className="container-lg">
@@ -13,8 +21,12 @@ function HeaderPNPCompleto(){
         </div>
         <div className="header-login">
           <div className="header-sign-in">
-        <Link to={"/Perfil"}><button className="br-sign-in" type="button" id="avatar-dropdown-trigger" data-toggle="dropdown" data-target="avatar-menu" aria-label="Olá, Fulano"><span className="br-avatar" title="Fulano da Silva"><span className="content bg-orange-vivid-30 text-pure-0">F</span></span><span className="ml-2 text-gray-80 text-weight-regular">Olá, <span className="text-weight-semi-bold">Ana</span></span><i className="fas fa-caret-down" aria-hidden="true"></i>
-        </button></Link>
+        <Link to={"/Perfil"}><div>
+        <button onMouseOver={drop} onMouseOut={drop}  style={{ height: "auto", padding: "10px"}} className="br-sign-in" type="button" id="avatar-dropdown-trigger" data-toggle="dropdown" data-target="avatar-menu" aria-label="Olá, Fulano"><span className="br-avatar" title="Fulano da Silva"><span className="content bg-orange-vivid-30 text-pure-0">F</span></span><span className="ml-2 text-gray-80 text-weight-regular">Olá, <span className="text-weight-semi-bold">Fulano</span></span><i className="fas fa-caret-down" aria-hidden="true"></i>
+        </button>
+        <div style={{ display: displayDrop}} className="br-list" id="avatar-menu" role="menu" aria-labelledby="avatar-dropdown-trigger"><a className="br-item" href="javascript:void(0)" role="menuitem">Sair</a>
+        </div>
+      </div></Link>
           </div>
           <div className="header-avatar"></div>
         </div>
