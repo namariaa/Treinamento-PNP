@@ -6,20 +6,26 @@ import apiService from "../../service/apiService";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useAuthorization } from "../../context/Autenticar/useAuthorization";
 
 const schema = yup.object().shape({
     titulo: yup.string().required(),
-    imagem: yup.string().required(),
+    imagem: yup.mixed().required(),
     descricao: yup.string().required(),
 });
 
 function NovaPublicacao(){
     const [novoPost, setNovoPost] =  useState();
     const mudar = useNavigate();
+    
 
-    const Conferir = async (data: { titulo: string; imagem: string; descricao:string}) => {
-            try {
-                const salvar = await apiService.publicacaoNova(data);
+    const Conferir = async (data: { titulo: string; imagem:FileList; descricao:string}) => {
+      try {
+                const formData = new FormData();
+                formData.append('titulo', data.titulo);
+                formData.append('imagem', data.imagem[0]);
+                formData.append('descricao', data.descricao);
+                const salvar = await apiService.publicacaoNova(formData);
                 setNovoPost(salvar.data);
                 console.log("Post foi realizado com sucesso!", salvar.data);
                 mudar("/");
@@ -41,7 +47,6 @@ function NovaPublicacao(){
                 <div className="br-input small" style={{ paddingTop: "15px" }}>
                 <label className="titulo">Título</label>
                 <div className="input-group">
-        
                   <input
                     className="small"
                     id="titulo"

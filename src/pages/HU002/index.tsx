@@ -5,8 +5,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
-import apiService from "../../service/apiService";
-import { useState } from "react";
+import { useAuthorization } from "../../context/Autenticar/useAuthorization";
 
 const schema = yup.object().shape({
   username: yup.string().required(),
@@ -15,16 +14,13 @@ const schema = yup.object().shape({
 
 function Login() {
   const mudar = useNavigate();
-  const [login, setLogin] = useState();
+  const authorization = useAuthorization();
   const Conferir = async (data: { username: string; password: string }) => {
-    try {
-      const salvar = await apiService.login(data);
-      setLogin(salvar.data);
-      localStorage.setItem('usuario', JSON.stringify(salvar.data)) ; //Guardando no local storage para eu conseguir usar rem nova publicação
-      console.log("Login realizado com sucesso!", salvar.data);
-	    mudar("/");
-    } catch (error) {
-      console.error("Erro ao fazer login", error);
+    try{
+      await authorization.autenticar(data.username, data.password);
+      mudar("/");
+    }catch(error){
+      console.error("Erro ao cadastrar", error);
     }
   };
 

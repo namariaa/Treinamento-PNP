@@ -1,4 +1,4 @@
-import { string } from "yup";
+import { getUserLocalStorage } from "../context/Autenticar/utils";
 import axiosInstance from "./axiosInstance";
 
 class Servico{
@@ -8,18 +8,21 @@ class Servico{
         return sis;
     }
     
-    async login(usuarioData: { username: string; password: string }){
-        const sis = await axiosInstance.post("login/",usuarioData);
-        return sis;
+    async loginRequest(username: string, password: string){
+        try{
+            const sis = await axiosInstance.post("login/",{username,password});
+            return sis.data;
+        }catch(error){
+            return null;
+        }
     }
-    async publicacaoNova(postagem: { titulo: string; imagem: string; descricao:string}){
-        const usuario = JSON.parse(localStorage.getItem('usuario'));
-        const itens = {postagem, autor:usuario, publicado_em:new Date().toISOString()};
-        console.log()
-        const sis = await axiosInstance.post("NovaPublicacao/",itens);
-        return sis;
+    async publicacaoNova(formData: FormData){
+        const sis = await axiosInstance.post("publicacao/", formData, {
+            headers: { "Content-Type": "multipart/form-data" }, 
+          });
+        return sis.data;
     }
-};
+};    
 
 
 export default new Servico();
