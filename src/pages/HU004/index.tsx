@@ -1,146 +1,64 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import HeaderPNPCompleto from "../../components/headerCompleto";
-import post from "./post.png";
+import Postagem from "../../components/post";
+import apiService from "../../service/apiService";
+
 import "./style.css"
 
+
 function Feed(){
-    const [tipoDisplay, setTipoDisplay] = useState("none");
-    const [tipoComentario, setTipoComentario] = useState("none");
+    const [post, setPost] = useState([]);
+    useEffect(() => {
+        const pegarPost = async () => {
+            try{
+                const salvar = await apiService.feed();
+                setPost(salvar.data.results);
+            }catch(error){
+                console.error("Erro ao publicar", error);
+            }
+        };
+        pegarPost();
+    }, [])
 
-    function mudarDisplay(){
-        if (tipoDisplay == "none") setTipoDisplay("flex");
-        else setTipoDisplay("none");
-    }
-    function mudarDisplayComentario(){
-        if (tipoComentario == "none") setTipoComentario("inline");
-        else setTipoComentario("none");
-    }
-
+    
     return (
         <>
         <HeaderPNPCompleto/>
         <div className="column">
-        <div className="col-sm-6 col-md-4 col-lg-3">
-            <div className="br-card">
+        {post.map((publicacoes) => 
+            <div key={publicacoes.id}>
+                <h2>{publicacoes.id}</h2>
             </div>
-        </div>
-        <div className="col-sm-6 col-md-4 col-lg-4" style={{justifySelf:"center"}}>
-            <div className="br-card">
-            <div className="card-header">
-                <div className="d-flex"><span className="br-avatar mr-3" title="Fulano da Silva"><span className="content"><i className="fas fa-user" aria-hidden="true"></i></span></span>
-                <div className="ml-3">
-                    <div className="text-weight-semi-bold text-up-02">Ana Maria</div>
-                    <div>@namariaa</div>
-                </div>
-                </div>
-            </div>
-            <div className="card-content">
-                <p>Natal galera</p>
-                <img src={post} alt="" />
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore perferendis nam porro atque ex at, numquam non optio ab eveniet error vel ad exercitationem, earum et fugiat recusandae harum? Assumenda.</p>
-            </div>
-            <div className="card-footer">
-                <div className="d-flex">
-                <div className="ml-auto">
-                <button onClick={mudarDisplayComentario} className="br-button secondary large mr-3" type="button" ><i className="fa-solid fa-comment" ></i> </button>
-                </div>
-                </div>
-                <button onClick={mudarDisplay} className="br-button" type="button" style={{margin:"5px", justifySelf:"right", display:"flex"}}>Respostas a postagem de @namariaa</button>
-            </div>
-            </div>
-            <div style={{display:tipoComentario}}>
-            <div className="col-sm-4 col-lg-12 mb-3">
-            <div className="br-input large">
-                <input id="input-large" type="text" placeholder="Comentário a ser publicado"/>
-            </div>
-            </div>
-            <button className="br-button primary mr-3" type="button"  style={{margin:"5px", justifySelf:"right", display:"flex"}}>Comentar</button>
-            </div>
+        )}
 
-            <div id="popup" className="div br-modal medium" aria-modal="true" role="dialog" aria-labelledby="modalalerttitle" style={{display: tipoDisplay}}>
-            <button onClick={mudarDisplay} className="br-button close circle" type="button" data-dismiss="br-modal" aria-label="Fechar"><i className="fas fa-times" aria-hidden="true"></i></button>
-            <div className="card-header">
-                <div className="d-flex"><span className="br-avatar mr-3" title="Fulano da Silva"><span className="content"><i className="fas fa-user" aria-hidden="true"></i></span></span>
-                <div className="ml-3">
-                    <div className="text-weight-semi-bold text-up-02">Ana Maria</div>
-                    <div>@namariaa</div>
-                </div>
-                </div>
-            </div>
-        <div className="br-modal-body">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus commodi laboriosam vel sequi quam deleniti, laborum mollitia blanditiis dolores officiis nulla quos dolorem repellat in nisi alias nesciunt fugit. Similique!</p>
-        </div>
-
-        <div className="card-header">
-                <div className="d-flex"><span className="br-avatar mr-3" title="Fulano da Silva"><span className="content"><i className="fas fa-user" aria-hidden="true"></i></span></span>
-                <div className="ml-3">
-                    <div className="text-weight-semi-bold text-up-02">Ana Maria</div>
-                    <div>@namariaa</div>
-                </div>
-                </div>
-            </div>
-        <div className="br-modal-body">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus commodi laboriosam vel sequi quam deleniti, laborum mollitia blanditiis dolores officiis nulla quos dolorem repellat in nisi alias nesciunt fugit. Similique!</p>
-        </div>
-
-        </div>
-        </div>
-        
-
-
-        <div className="col-sm-6 col-md-4 col-lg-4"  style={{justifySelf:"center"}}>
-            <div className="br-card">
-            <div className="card-header">
-                <div className="d-flex"><span className="br-avatar mr-3" title="Fulano da Silva"><span className="content"><i className="fas fa-user" aria-hidden="true"></i></span></span>
-                <div className="ml-3">
-                    <div className="text-weight-semi-bold text-up-02">Fulano 01</div>
-                    <div>@fulaninho</div>
-                </div>
-                </div>
-            </div>
-            <div className="card-content">
-                <p>Fofoca diária</p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore perferendis nam porro atque ex at, numquam non optio ab eveniet error vel ad exercitationem, earum et fugiat recusandae harum? Assumenda.</p>
-            </div>
-            <div className="card-footer">
-                <div className="d-flex">
-                <div className="ml-auto">
-                <button className="br-button secondary large mr-3" type="button" ><i className="fa-solid fa-comment" ></i> </button>
-                </div>
-                </div>
-                <button className="br-button" type="button" style={{margin:"5px", justifySelf:"right", display:"flex"}}>Respostas a postagem de @fulaninho</button>
-            </div>
-            </div>
-        </div>
-
-        <div className="col-sm-6 col-md-4 col-lg-4" style={{justifySelf:"center"}}>
-            <div className="br-card">
-            <div className="card-header">
-                <div className="d-flex"><span className="br-avatar mr-3" title="Fulano da Silva"><span className="content"><i className="fas fa-user" aria-hidden="true"></i></span></span>
-                <div className="ml-3">
-                    <div className="text-weight-semi-bold text-up-02">Fulano 02</div>
-                    <div>@fulanitos</div>
-                </div>
-                </div>
-            </div>
-            <div className="card-content">
-                <p>Onde será o natal?</p>
-                <img src={post} alt="" />
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore perferendis nam porro atque ex at, numquam non optio ab eveniet error vel ad exercitationem, earum et fugiat recusandae harum? Assumenda.</p>
-            </div>
-            <div className="card-footer">
-                <div className="d-flex">
-                <div className="ml-auto">
-                <button className="br-button secondary large mr-3" type="button" ><i className="fa-solid fa-comment" ></i> </button>
-                </div>
-                </div>
-                <button className="br-button" type="button" style={{margin:"5px", justifySelf:"right", display:"flex"}}>Respostas a postagem de @fulanitos</button>
-            </div>
-            </div>
-        </div>
+        <Postagem/>
         </div>
         </>
     )
 }
 
 export default Feed;
+
+/*<div>
+          {publicacoes.map((publicacao) => (
+            <div key={publicacao.id} className="publicacao">
+              <h2>{publicacao.titulo}</h2>
+              <p>{publicacao.descricao}</p>
+              {publicacao.imagem && (
+                <img
+                  src={`http://127.0.0.1:8000${publicacao.imagem}`}
+                  alt={publicacao.titulo}
+                  style={{ width: '100%', height: 'auto' }}
+                />
+              )}
+              <p><em>{new Date(publicacao.data_criacao).toLocaleString()}</em></p>
+            </div>
+          ))}
+        </div>
+        {post ? (
+				<p key={post.}>{conselhos.slip.advice}</p>
+			) : (
+				<p>n tem nada</p>
+			)}
+        
+        */

@@ -1,4 +1,3 @@
-import { getUserLocalStorage } from "../context/Autenticar/utils";
 import axiosInstance from "./axiosInstance";
 
 class Servico{
@@ -21,6 +20,10 @@ class Servico{
             headers: { "Content-Type": "multipart/form-data" }, 
           });
         return sis.data;
+    }
+    async feed(){
+        const sis = await axiosInstance.get("publicacao/");
+        return sis;
     }
 };    
 
