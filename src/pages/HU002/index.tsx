@@ -14,23 +14,17 @@ const schema = yup.object().shape({
 
 function Login() {
   const mudar = useNavigate();
-  const authorization = useAuthorization();
+  const {autenticar} = useAuthorization();
   const Conferir = async (data: { username: string; password: string }) => {
     try{
-      await authorization.autenticar(data.username, data.password);
-      mudar("/");
+      await autenticar(data.username, data.password);
+      mudar("/feed");
     }catch(error){
-      console.error("Erro ao cadastrar", error);
+      console.error("Erro ao fazer login", error);
     }
   };
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const {handleSubmit,register,formState: { errors },} = useForm({resolver: yupResolver(schema),});
 
   return (
     <>

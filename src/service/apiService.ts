@@ -25,7 +25,14 @@ class Servico{
         const sis = await axiosInstance.get("publicacao/");
         return sis;
     }
+    async comentario(idMoment:Int32Array, mensagem:string){
+        const sis = await axiosInstance.post("comentario/",{publicacao:idMoment, mensagem:mensagem});
+        return sis.data;
+    }
+    async getComentario(){
+        const sis = await axiosInstance.get("comentario/");
+        return sis;
+    }
 };    
-
 
 export default new Servico();

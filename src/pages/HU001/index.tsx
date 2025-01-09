@@ -13,7 +13,7 @@ const schema = yup.object().shape({
 	username: yup.string().required(),
 	senha: yup.string().required(),
 	confirma: yup.string().required(),
-})
+}) 
 
 
 function Autocadastro(){
@@ -30,7 +30,7 @@ function Autocadastro(){
 			setCadastro(salvar.data);
 			mudarDisplaySucesso();
 			console.log("Cadastro realizado com sucesso!", salvar.data);
-			mudar("/login");
+			mudar("/");
 		} catch (error) {
 		  mudarDisplayErro();
 		  console.error("Erro ao cadastrar", error);

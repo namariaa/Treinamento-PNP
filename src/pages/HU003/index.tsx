@@ -27,7 +27,7 @@ function NovaPublicacao(){
                 const salvar = await apiService.publicacaoNova(formData);
                 setNovoPost(salvar.data);
                 console.log("Post foi realizado com sucesso!", salvar.data);
-                mudar("/");
+                mudar("/feed");
             } catch (error) {
               console.error("Erro ao publicar", error);
             }

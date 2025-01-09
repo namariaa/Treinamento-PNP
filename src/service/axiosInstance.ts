@@ -8,11 +8,17 @@ const axiosInstance = axios.create ({
 axiosInstance.interceptors.request.use( ///token ser inserido na requisição automaticamente 
     (config) => {
         const user = getUserLocalStorage();
-        const token = user.token;
-        if (token){
+        if (user  && user.token){
+            const token = user.token;
             config.headers['Authorization'] =  `Bearer ${token}`;
         }
+        else { 
+            console.warn('Não tem token porque não foi realizado o cadastro');
+        }
         return config;
-    }
+    },
+    async (error) => {
+		await Promise.reject(error);
+	}
 )
 export default axiosInstance;
